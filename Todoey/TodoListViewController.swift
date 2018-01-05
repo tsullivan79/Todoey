@@ -13,10 +13,18 @@ class TodoListViewController: UITableViewController {
     
     var itemArray = ["Walk dogs", "Feed Brian", "Cuddle Cats"]
     
+    let defaults = UserDefaults.standard  //sets up the user defaults container
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
      
+        if let items = defaults.array(forKey: "TodoListArray") as? [String] {
+                itemArray = items
+        }
+        
+        //this allows you to retrieve the last saved data from the UserDefaults file by loading data from that location when the app reloads on screen
+        
         
     }
 
@@ -67,6 +75,9 @@ class TodoListViewController: UITableViewController {
             //print(textField.text)  - a way to capture to the console what the user entered in the TextField
             
             self.itemArray.append(textField.text!) //adds the new to-do item to the to-do list array
+            
+            self.defaults.set(self.itemArray, forKey: "TodoListArray") // saves the new user data in the UserDefaults persistent device storage
+            
             
             self.tableView.reloadData() // reloads the table view with the new information added via the UIAlert
             
